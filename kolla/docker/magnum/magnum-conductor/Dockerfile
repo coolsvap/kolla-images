@@ -1,0 +1,25 @@
+FROM kollaglue/centos-binary-magnum-base:3.0.0
+MAINTAINER Kolla Project (https://launchpad.net/kolla)
+
+
+    
+
+RUN yum -y install \
+        openstack-magnum-conductor \
+        tar \
+    && yum clean all
+
+    
+
+# Install kubectl binary (ugh)
+RUN cd /tmp \
+    && curl -L https://github.com/GoogleCloudPlatform/kubernetes/releases/download/v0.15.0/kubernetes.tar.gz -o /tmp/kubernetes.tar.gz \
+    && /usr/bin/tar -xzvf /tmp/kubernetes.tar.gz \
+    && cp -a /tmp/kubernetes/platforms/linux/amd64/kubectl /usr/bin/kubectl \
+    && rm -rf /tmp/kubernetes
+
+
+
+
+
+USER magnum
